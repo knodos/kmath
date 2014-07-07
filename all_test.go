@@ -1,6 +1,10 @@
 package kmath
 
-import "testing"
+import ( 
+    "testing"
+    //"math"
+    "fmt"
+)
 
 func BenchmarkIsPrimeZ (b *testing.B) {
     for i := 0; i < b.N; i++ {
@@ -62,5 +66,35 @@ func TestSqrt (t *testing.T) {
     } 
 
 }
+
+func TestCover (t *testing.T) {
+
+    v := make([]float64,3)
+    v[0] = 50
+    v[1] = 100
+    v[2] = 100
+    
+    ad,au := Cover(v,50)
+    
+    fmt.Println("cover",ad,au)
+}
+
+func TestCorr (t *testing.T) {
+
+    x := make([]float64,3)
+    x[0] = 100
+    x[1] = 50
+    x[2] = 200
+    
+    y := make([]float64,3)
+    y[0] = 50
+    y[1] = 1000
+    y[2] = -100
+    
+    c,_ := Corr(x,y)
+    fmt.Println("corr",c)
+}
+
+
 
 
