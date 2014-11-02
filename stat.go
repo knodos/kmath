@@ -21,7 +21,7 @@ func Gini(in []float64) float64 {
 		c += in[i]
 	}
 
-	// Create a vector Y with what part of the total is each input value. 
+	// Create a normalized vector Y
 	y := make([]float64, N)
 
 	for i=0;i<N;i++ {
@@ -31,22 +31,22 @@ func Gini(in []float64) float64 {
     // sort Y values in ascending order
 	sort.Float64s(y)
 
-	// Normalize the X
+	// Normalize X
 	x := 1.0 / float64(N)
-
-	// Calculate areas below the diagonal
-	gini := 0.0
-	acc := 0.0
-	pacc := 0.0
 	
-	for i := 0; i < N; i++ {
-		acc += y[i]
-		pacc += x
-		gini += (pacc - acc) * x
+	// Accumulate Y
+	for i=0; i<N-1; i++ {
+	    y[i+1] += y[i]
 	}
 
-    // Normalize to 0...1 (area of triangle is 0.5 max)
-	return 2 * gini
+	// Calculate areas below the diagonal (Brown formula)
+	gini := 0.0
+	
+	for i := 0; i < N-1; i++ {
+		gini += (y[i+1] + y[i]) * x
+	}
+
+	return 1 - gini
 }
 
 // Cover
